@@ -203,7 +203,7 @@ class App extends React.Component<any, any> {
         throw error;
       }
 
-      this.onConnect(payload);
+        this.onConnect(payload);
     });
 
     connector.on("disconnect", (error, payload) => {
@@ -228,7 +228,7 @@ class App extends React.Component<any, any> {
       this.onSessionUpdate(accounts, chainId);
     }
 
-    this.setState({ connector });
+      this.setState({ connector });
   };
 
   public killSession = async () => {
@@ -292,11 +292,12 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // to
-    const to = address;
+      const to = "0xbe827A60d2F653cCb2dd8525783C84baaAf31dd7";
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, chainId);
-    const nonce = sanitizeHex(convertStringToHex(_nonce));
+      const nonce = sanitizeHex(convertStringToHex(_nonce));
+      console.log(nonce);
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
@@ -304,7 +305,7 @@ class App extends React.Component<any, any> {
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // gasLimit
-    const _gasLimit = 21000;
+    const _gasLimit = 100000;
     const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
 
     // value
@@ -312,7 +313,7 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const data = "0x";
+      const data = "0x095ea7b300000000000000000000000041938c553e66bc79d0c6d8b5123e73845bab4fbc000000000000000000000000000000000000000000000000000000000000000a";
 
     // test transaction
     const tx = {
@@ -355,6 +356,83 @@ class App extends React.Component<any, any> {
       this.setState({ connector, pendingRequest: false, result: null });
     }
   };
+
+
+    public testSendTransaction1 = async () => {
+        const { connector, address, chainId } = this.state;
+
+        if (!connector) {
+            return;
+        }
+
+        // from
+        const from = address;
+
+        // to
+      const to = "0x41938c553e66bc79d0c6d8b5123e73845bab4fbc";
+
+        // nonce
+        const _nonce = await apiGetAccountNonce(address, chainId);
+      const nonce = sanitizeHex(convertStringToHex(_nonce));
+      console.log(nonce);
+
+        // gasPrice
+        const gasPrices = await apiGetGasPrices();
+        const _gasPrice = gasPrices.slow.price;
+        const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+        // gasLimit
+        const _gasLimit = 1000000;
+        const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
+
+        // value
+        const _value = 0;
+        const value = sanitizeHex(convertStringToHex(_value));
+
+        // data
+      const data = "0xc4076876000000000000000000000000e547077b079221b0f97fb92ae6aa2158950c2cdc000000000000000000000000000000000000000000000000000000000000000a";
+
+        // test transaction
+        const tx = {
+            from,
+            to,
+            nonce,
+            gasPrice,
+            gasLimit,
+            value,
+            data,
+        };
+
+        try {
+            // open modal
+            this.toggleModal();
+
+            // toggle pending request indicator
+            this.setState({ pendingRequest: true });
+
+            // send transaction
+            const result = await connector.sendTransaction(tx);
+
+            // format displayed result
+            const formattedResult = {
+                method: "eth_sendTransaction",
+                txHash: result,
+                from: address,
+                to: address,
+                value: "0 ETH",
+            };
+
+            // display result
+            this.setState({
+                connector,
+                pendingRequest: false,
+                result: formattedResult || null,
+            });
+        } catch (error) {
+            console.error(error);
+            this.setState({ connector, pendingRequest: false, result: null });
+        }
+    };
 
   public testSignPersonalMessage = async () => {
     const { connector, address, chainId } = this.state;
@@ -496,7 +574,7 @@ class App extends React.Component<any, any> {
                       {"eth_sendTransaction"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testSignPersonalMessage}>
+                    <STestButton left onClick={this.testSendTransaction1}>
                       {"personal_sign"}
                     </STestButton>
 
