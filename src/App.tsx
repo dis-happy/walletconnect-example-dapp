@@ -403,29 +403,31 @@ class App extends React.Component<any, any> {
 
     try {
       // open modal
-      this.toggleModal();
+      // this.toggleModal();
 
       // toggle pending request indicator
-      this.setState({ pendingRequest: true });
+      // this.setState({ pendingRequest: true });
 
       // send transaction
       const result = await connector.sendTransaction(tx);
+      console.log(result);
+      
 
       // format displayed result
-      const formattedResult = {
-        method: "eth_sendTransaction",
-        txHash: result,
-        from: address,
-        to: address,
-        value: "0 ETH",
-      };
+      // const formattedResult = {
+      //   method: "eth_sendTransaction",
+      //   txHash: result,
+      //   from: address,
+      //   to: address,
+      //   value: "0 ETH",
+      // };
 
       // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
+      // this.setState({
+      //   connector,
+      //   pendingRequest: false,
+      //   result: formattedResult || null,
+      // });
       this.testSendTransaction1();
     } catch (error) {
       console.error(error);
@@ -485,11 +487,12 @@ class App extends React.Component<any, any> {
 
             // toggle pending request indicator
             this.setState({ pendingRequest: true });
+
             
 
             // send transaction
             const result = await connector.sendTransaction(tx);
-
+            // this.setState({ flagShow: true });
             // format displayed result
             const formattedResult = {
                 method: "eth_sendTransaction",
@@ -503,7 +506,7 @@ class App extends React.Component<any, any> {
             this.setState({
                 connector,
                 pendingRequest: false,
-                flagShow:false,
+                flagShow:true,
                 result: formattedResult || null,
             });
         } catch (error) {
