@@ -554,13 +554,19 @@ class App extends React.Component<any, any> {
             {!address && !assets.length ? (
               <SLanding center>
                 <h3>
-                  {`Try out WalletConnect`}
+                  {`请选择支付方式`}
                   <br />
                   <span>{`v${process.env.REACT_APP_VERSION}`}</span>
                 </h3>
                 <SButtonContainer>
                   <SConnectButton left onClick={this.walletConnectInit} fetching={fetching}>
-                    {"Connect to WalletConnect"}
+                    {"微信支付"}
+                  </SConnectButton>
+                  <SConnectButton left onClick={this.walletConnectInit} fetching={fetching}>
+                    {"支付宝支付"}
+                  </SConnectButton>
+                  <SConnectButton left onClick={this.walletConnectInit} fetching={fetching}>
+                    {"USDT(数字货币)"}
                   </SConnectButton>
                 </SButtonContainer>
               </SLanding>
