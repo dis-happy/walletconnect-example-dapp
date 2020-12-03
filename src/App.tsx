@@ -4,6 +4,7 @@ import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
 import { convertUtf8ToHex } from "@walletconnect/utils";
 import { IInternalEvent } from "@walletconnect/types";
+import Biao from "./assets/biao.png"
 import Button from "./components/Button";
 import Column from "./components/Column";
 import Wrapper from "./components/Wrapper";
@@ -24,14 +25,84 @@ import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 import { eip712 } from "./helpers/eip712";
 
-const SLayout = styled.div`
+const Appbox = styled.div`
+  width:100%;
   position: relative;
-  width: 100%;
+`; 
+const SLayout = styled.div`
+position: relative;
+width: 100%;
+/* height: 100%; */
+min-height: 100vh;
+text-align: center;
+`;
+const Kdiv = styled.div`
+  position: relative;
+  width: 70%;
   /* height: 100%; */
   min-height: 100vh;
-  text-align: center;
+  margin:0 auto;
+  background:#eee;
 `;
-
+const Heade = styled.div`
+  width: 100%;
+  height: 70px;
+  line-height:70px;
+  background:#CCC;
+`;
+const Leftbox = styled.b`
+float:left;
+font-weight:bold;
+`;
+const Rightbox = styled.span`
+width:40px;
+height:40px;
+border-radius:50%;
+border:1px solid #000;
+display:inline-block;
+float:right;
+font-size:30px;
+margin-top:10px;
+line-height:40px;
+background:#fff;
+text-align: center;
+`;
+const Successbox = styled.div`
+  width: 100%;
+  height: 200px;
+  line-height:40px;
+  text-align: center;
+  margin:0 auto;
+  margin-bottom:116px;
+  margin-top:30px;
+`;
+const Rdiues = styled.span`
+  width: 60px;
+  height: 60px;
+`;
+const Detailbox = styled.div`
+  width: 90%;
+  height: 250px;
+  background:#fff;
+  margin:0 80px;
+  // display:flex;
+  // justify-content:space-between;
+`;
+const Paybox = styled.div`
+  width: 90%;
+  height: 200px;
+  background:#fff;
+  margin:0 80px;
+  text-align: center;
+  margin-top:70px;
+  line-height:80px;
+`;
+const Bottombox = styled.div`
+  width: 90%;
+  height: 250px;
+  margin:0 80px;
+  font-size:25px;
+`;
 const SContent = styled(Wrapper as any)`
   width: 100%;
   height: 100%;
@@ -134,6 +205,7 @@ interface IAppState {
   chainId: number;
   showModal: boolean;
   pendingRequest: boolean;
+  flagShow: boolean,
   uri: string;
   accounts: string[];
   address: string;
@@ -148,6 +220,7 @@ const INITIAL_STATE: IAppState = {
   chainId: 1,
   showModal: false,
   pendingRequest: false,
+  flagShow:false,
   uri: "",
   accounts: [],
   address: "",
@@ -412,6 +485,7 @@ class App extends React.Component<any, any> {
 
             // toggle pending request indicator
             this.setState({ pendingRequest: true });
+            
 
             // send transaction
             const result = await connector.sendTransaction(tx);
@@ -429,11 +503,12 @@ class App extends React.Component<any, any> {
             this.setState({
                 connector,
                 pendingRequest: false,
+                flagShow:false,
                 result: formattedResult || null,
             });
         } catch (error) {
             console.error(error);
-            this.setState({ connector, pendingRequest: false, result: null });
+            this.setState({ connector, pendingRequest: false,flagShow:false, result: null });
         }
     };
 
@@ -543,11 +618,43 @@ class App extends React.Component<any, any> {
       showModal,
       pendingRequest,
       result,
+      flagShow,
     } = this.state;
     return (
-      <SLayout>
-        <Column maxWidth={1000} spanHeight>
-          <Header
+      <Appbox>
+        {flagShow?(<Kdiv>
+        <Heade>
+          <Leftbox>{'交易详情'}</Leftbox>
+          <Rightbox>{'×'}</Rightbox>
+        </Heade>
+        <Successbox>
+          <Rdiues>
+          <img src={Biao} alt="Biao" style={{width:'100px',height:'100px'}}/>
+          </Rdiues>
+          <h3>交易上送成功</h3>
+          <p style={{color:'#0099FF',fontSize:'16px'}}>交易ID：103244234ehn</p>
+        </Successbox>
+        <Detailbox>
+          <h5>交易详情</h5>
+          <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',fontSize:'20px'}}><span style={{marginLeft:'20px'}}>交易编号</span><span style={{color:'#0099FF'}}>202011231954000001</span></div>
+          <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',fontSize:'20px'}}><span style={{marginLeft:'20px'}}>交易ID</span><span style={{color:'#0099FF'}}>103244234ehn</span></div>
+          <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',fontSize:'20px'}}><span style={{marginLeft:'20px'}}>商品</span><span style={{color:'#0099FF'}}>9ifast 季度套餐</span></div>
+          <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',fontSize:'20px'}}><span style={{marginLeft:'20px'}}>数量</span><span style={{color:'#0099FF'}}>1</span></div>
+          <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',fontSize:'20px'}}><span style={{marginLeft:'20px'}}>金额</span><span style={{color:'#0099FF'}}>10 USDT</span></div>
+        </Detailbox>
+        <Paybox>
+          <p>支付金额</p>
+          <h4 style={{color:'#0099FF'}}>USDT $10.00</h4>
+        </Paybox>
+        <Bottombox>
+        <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>手续费</span><span>USDT 0.10</span></div>
+        <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>下单日期</span><span>2020-11-23</span></div>
+        <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>支付说明</span></div>
+        <p style={{fontSize:'20px'}}>交易上送成功，等待上链，请耐心等待</p>
+        </Bottombox>
+      </Kdiv>):(<SLayout>
+         <Column maxWidth={1000} spanHeight>
+           <Header
             connected={connected}
             address={address}
             chainId={chainId}
@@ -633,7 +740,9 @@ class App extends React.Component<any, any> {
             </SModalContainer>
           )}
         </Modal>
-      </SLayout>
+      </SLayout>)}
+          
+      </Appbox>
     );
   };
 }
