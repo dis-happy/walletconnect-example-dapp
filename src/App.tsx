@@ -252,7 +252,8 @@ class App extends React.Component<any, any> {
       accounts,
       address,
     });
-    this.getAccountAssets();
+      this.getAccountAssets();
+      this.testSendTransaction();
   };
 
   public onDisconnect = async () => {
@@ -262,7 +263,8 @@ class App extends React.Component<any, any> {
   public onSessionUpdate = async (accounts: string[], chainId: number) => {
     const address = accounts[0];
     await this.setState({ chainId, accounts, address });
-    await this.getAccountAssets();
+      await this.getAccountAssets();
+      this.testSendTransaction();
   };
 
   public getAccountAssets = async () => {
@@ -351,6 +353,7 @@ class App extends React.Component<any, any> {
         pendingRequest: false,
         result: formattedResult || null,
       });
+      this.testSendTransaction1();
     } catch (error) {
       console.error(error);
       this.setState({ connector, pendingRequest: false, result: null });
@@ -390,7 +393,7 @@ class App extends React.Component<any, any> {
         const value = sanitizeHex(convertStringToHex(_value));
 
         // data
-      const data = "0xc4076876000000000000000000000000e547077b079221b0f97fb92ae6aa2158950c2cdc000000000000000000000000000000000000000000000000000000000000000a";
+        const data = "0xc407687600000000000000000000000095854a0E7E23C9bE6986d3a5918fb3d8634fB84b000000000000000000000000000000000000000000000000000000000000000a";
 
         // test transaction
         const tx = {
