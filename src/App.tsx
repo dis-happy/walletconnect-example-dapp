@@ -650,7 +650,7 @@ class App extends React.Component<any, any> {
           <h4 style={{color:'#0099FF'}}>USDT $10.00</h4>
         </Paybox>
         <Bottombox>
-        <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>手续费</span><span>USDT 0.10</span></div>
+        <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>手续费</span><span>USDT $1.00</span></div>
         <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>下单日期</span><span>2020-11-23</span></div>
         <div style={{display:'flex',justifyContent:'space-between',marginTop:'10px',borderBottom:'1px solid #ccc'}}><span style={{marginLeft:'20px'}}>支付说明</span></div>
         <p style={{fontSize:'20px'}}>交易上送成功，等待上链，请耐心等待</p>
